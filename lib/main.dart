@@ -46,14 +46,11 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+          children: const <Widget>[
+            Level(color: Color.fromARGB(255, 137, 216, 34)),
+            Level(color: Color.fromARGB(255, 43, 128, 161)),
+            Level(color: Color.fromARGB(255, 175, 150, 37)),
+            Level(color: Color.fromARGB(255, 34, 52, 216)),
           ],
         ),
       ),
@@ -62,6 +59,25 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
+    );
+  }
+}
+
+class Level extends StatefulWidget {
+  const Level({super.key, required this.color});
+
+  final Color color;
+
+  @override
+  State<Level> createState() => _LevelState();
+}
+
+class _LevelState extends State<Level> {
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.circle,
+      color: widget.color,
     );
   }
 }
