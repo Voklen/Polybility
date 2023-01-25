@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:polybility/create_level.dart';
+import 'package:toml/toml.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,12 +31,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CreateLevel(),
+      ),
+    );
+    var document = TomlDocument.fromMap(const {
+      'hello': true,
+    }).toString();
+    print(document);
   }
 
   @override
