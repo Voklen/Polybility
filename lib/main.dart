@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:polybility/course_structure.dart';
 import 'package:polybility/create_level.dart';
 import 'package:toml/toml.dart';
 
@@ -31,17 +34,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _incrementCounter() {
-    Navigator.push(
+  void _incrementCounter() async {
+    final defaultLesson = Lesson(description: '', questions: []);
+    final levelCreator = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CreateLevel(),
+        builder: (context) {
+          return CreateLevel(
+            lesson: defaultLesson,
+          );
+        },
       ),
     );
-    var document = TomlDocument.fromMap(const {
-      'hello': true,
-    }).toString();
-    print(document);
+    if (!mounted) return;
+    print(levelCreator.toString());
   }
 
   @override
@@ -67,6 +73,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  FutureOr _updateLevels(_) {
+    TomlDocument.fromMap(const {
+      'hello': true,
+    }).toString();
   }
 }
 

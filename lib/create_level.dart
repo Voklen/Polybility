@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CreateLevel extends StatelessWidget {
-  CreateLevel({super.key});
+import 'package:polybility/course_structure.dart';
 
-  final questionController = TextEditingController();
+class CreateLevel extends StatelessWidget {
+  CreateLevel({super.key, required this.lesson});
+
+  final Lesson lesson;
+
+  final promptController = TextEditingController();
   final answerController = TextEditingController();
 
   @override
@@ -15,15 +19,23 @@ class CreateLevel extends StatelessWidget {
       body: Column(
         children: [
           const Text('Question'),
-          TextField(
-            controller: questionController,
-          ),
+          TextField(controller: promptController),
           const Text('Answer'),
-          TextField(
-            controller: answerController,
-          ),
+          TextField(controller: answerController),
+          ElevatedButton(
+            onPressed: () => _submit(context),
+            child: const Text('Submit'),
+          )
         ],
       ),
     );
+  }
+
+  void _submit(BuildContext context) {
+    final prompt = promptController.text;
+    final answer = answerController.text;
+    final question = Question(prompt: prompt, answer: answer);
+    lesson.addQuestion(question);
+    Navigator.pop(context, lesson);
   }
 }
