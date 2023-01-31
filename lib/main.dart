@@ -36,7 +36,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() async {
     final defaultLesson = Lesson(description: '', questions: []);
-    final levelCreator = await Navigator.push(
+    final Lesson lessonCreator = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
     if (!mounted) return;
-    print(levelCreator.toString());
+    print(lessonCreator.toMap());
   }
 
   @override
