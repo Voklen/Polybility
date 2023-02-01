@@ -35,7 +35,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() async {
-    final defaultLesson = Lesson(description: '', questions: []);
+    final defaultLesson = Lesson(
+      description: '',
+      questions: [const Question(prompt: '', answer: '')],
+    );
     final Lesson lessonCreator = await Navigator.push(
       context,
       MaterialPageRoute(
