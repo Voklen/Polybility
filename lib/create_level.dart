@@ -18,18 +18,41 @@ class CreateLevel extends StatelessWidget {
       ),
       body: Column(
         children: [
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(onPressed: () {}, child: const Text('')),
+              ),
+              Expanded(
+                child: ElevatedButton(onPressed: () {}, child: const Text('')),
+              ),
+              Expanded(
+                child: ElevatedButton(onPressed: () {}, child: const Text('')),
+              ),
+            ],
+          ),
           const Text('Question'),
           TextField(controller: promptController),
           const Text('Answer'),
           TextField(controller: answerController),
-          ElevatedButton(
-            onPressed: () => _submit(context),
-            child: const Text('Submit'),
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: () => _nextLevel(context),
+                child: const Text('Next level'),
+              ),
+              ElevatedButton(
+                onPressed: () => _submit(context),
+                child: const Text('Submit'),
+              ),
+            ],
           )
         ],
       ),
     );
   }
+
+  void _nextLevel(BuildContext context) {}
 
   void _submit(BuildContext context) {
     final prompt = promptController.text;
