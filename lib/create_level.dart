@@ -36,13 +36,16 @@ class _CreateLevelState extends State<CreateLevel> {
           ToggleButtons(
             constraints: BoxConstraints.expand(
               height: 50,
-              width: MediaQuery.of(context).size.width / _selections.length - 2,
+              width:
+                  0.95 * MediaQuery.of(context).size.width / _selections.length,
             ),
-            fillColor: Colors.grey,
+            fillColor: Colors.green,
+            selectedBorderColor: Colors.green,
             isSelected: _selections,
             onPressed: _switchQuestion,
-            renderBorder: false,
             borderRadius: BorderRadius.circular(8),
+            borderWidth: 0,
+            borderColor: const Color.fromARGB(255, 151, 151, 151),
             children: _selectionButtons,
           ),
           const Text('Question'),
@@ -87,6 +90,7 @@ class _CreateLevelState extends State<CreateLevel> {
   }
 
   _switchQuestion(int index) {
+    _selections = _selections.map((e) => false).toList();
     setState(() {
       _selections[index] = true;
     });
@@ -97,11 +101,9 @@ class _CreateLevelState extends State<CreateLevel> {
 
   void addQuestionButton() {
     final questionIndex = widget.lesson.questions.length - 1;
-    _selections.add(true);
+    _selections.add(false);
     _selectionButtons.add(
-      const Expanded(
-        child: SizedBox.shrink(),
-      ),
+      const SizedBox.shrink(),
     );
     setState(() {});
   }
