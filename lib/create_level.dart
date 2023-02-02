@@ -16,13 +16,14 @@ class _CreateLevelState extends State<CreateLevel> {
 
   final _promptController = TextEditingController();
   final _answerController = TextEditingController();
-  List<Widget> _selectionButtons = [];
-  List<bool> _selections = [];
+  final List<Widget> _selectionButtons = [];
+  final List<bool> _selections = [];
 
   @override
   void initState() {
     super.initState();
     addQuestionButton();
+    _switchQuestion(0);
   }
 
   @override
@@ -75,6 +76,15 @@ class _CreateLevelState extends State<CreateLevel> {
     widget.lesson.addQuestion(question);
     _currentQuestion = widget.lesson.questions.length - 1;
     addQuestionButton();
+    final questionIndex = _selections.length - 1;
+    _switchQuestion(questionIndex);
+  }
+
+  void addQuestionButton() {
+    _selections.add(false);
+    _selectionButtons.add(
+      const SizedBox.shrink(),
+    );
   }
 
   void _submit(BuildContext context) {
@@ -90,21 +100,18 @@ class _CreateLevelState extends State<CreateLevel> {
   }
 
   _switchQuestion(int index) {
-    _selections = _selections.map((e) => false).toList();
-    setState(() {
-      _selections[index] = true;
-    });
+    _saveQuestion();
+    _currentQuestion = index;
+
     final question = widget.lesson.questions[index];
     _promptController.text = question.prompt;
     _answerController.text = question.answer;
-  }
 
-  void addQuestionButton() {
-    final questionIndex = widget.lesson.questions.length - 1;
-    _selections.add(false);
-    _selectionButtons.add(
-      const SizedBox.shrink(),
-    );
-    setState(() {});
+    for (int i = 0; i < _selections.length; i++) {
+      _selections[i] = false;
+    }
+    setState(() {
+      _selections[index] = true;
+    });
   }
 }
