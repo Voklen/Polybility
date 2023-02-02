@@ -16,7 +16,8 @@ class _CreateLevelState extends State<CreateLevel> {
 
   final _promptController = TextEditingController();
   final _answerController = TextEditingController();
-  final List<Widget> _selectionButtons = [];
+  List<Widget> _selectionButtons = [];
+  List<bool> _selections = [];
 
   @override
   void initState() {
@@ -32,7 +33,16 @@ class _CreateLevelState extends State<CreateLevel> {
       ),
       body: Column(
         children: [
-          Row(
+          ToggleButtons(
+            constraints: BoxConstraints.expand(
+              height: 50,
+              width: MediaQuery.of(context).size.width / _selections.length - 2,
+            ),
+            fillColor: Colors.grey,
+            isSelected: _selections,
+            onPressed: _switchQuestion,
+            renderBorder: false,
+            borderRadius: BorderRadius.circular(8),
             children: _selectionButtons,
           ),
           const Text('Question'),
@@ -76,13 +86,21 @@ class _CreateLevelState extends State<CreateLevel> {
     widget.lesson.questions[_currentQuestion] = question;
   }
 
+  _switchQuestion(int index) {
+    setState(() {
+      _selections[index] = true;
+    });
+    final question = widget.lesson.questions[index];
+    _promptController.text = question.prompt;
+    _answerController.text = question.answer;
+  }
+
   void addQuestionButton() {
+    final questionIndex = widget.lesson.questions.length - 1;
+    _selections.add(true);
     _selectionButtons.add(
-      Expanded(
-        child: FilledButton(
-          onPressed: () {},
-          child: const SizedBox.shrink(),
-        ),
+      const Expanded(
+        child: SizedBox.shrink(),
       ),
     );
     setState(() {});
