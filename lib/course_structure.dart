@@ -11,7 +11,11 @@ class Course {
 }
 
 class Lesson {
-  Lesson({required this.description, required this.questions});
+  const Lesson({required this.description, required this.questions});
+
+  static createNew() {
+    Lesson(description: '', questions: [Question.createNew()]);
+  }
 
   addQuestion(Question question) => questions.add(question);
   toMap() {
@@ -20,12 +24,13 @@ class Lesson {
   }
 
   final String description;
-  List<Question> questions;
+  final List<Question> questions;
 }
 
 class Question {
   const Question({required this.prompt, required this.answer});
 
+  static createNew() => const Question(prompt: '', answer: '');
   toMap() => {'prompt': prompt, 'answer': answer};
 
   final String prompt;
