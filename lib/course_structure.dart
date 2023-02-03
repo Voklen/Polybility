@@ -1,6 +1,8 @@
 class Course {
   const Course({required this.name, required this.lessons});
 
+  static final createNew = Course(name: '', lessons: []);
+
   toMap() {
     final lessonsMap = lessons.map((e) => e.toMap());
     return {'name': name, 'questions': lessonsMap};
@@ -11,11 +13,10 @@ class Course {
 }
 
 class Lesson {
-  const Lesson({required this.description, required this.questions});
+  Lesson({required this.description, required this.questions});
 
-  static createNew() {
-    Lesson(description: '', questions: [Question.createNew()]);
-  }
+  static final createNew =
+      Lesson(description: '', questions: [Question.createNew]);
 
   addQuestion(Question question) => questions.add(question);
   toMap() {
@@ -30,7 +31,7 @@ class Lesson {
 class Question {
   const Question({required this.prompt, required this.answer});
 
-  static createNew() => const Question(prompt: '', answer: '');
+  static const createNew = Question(prompt: '', answer: '');
   toMap() => {'prompt': prompt, 'answer': answer};
 
   final String prompt;

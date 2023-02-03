@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
       MaterialPageRoute(
         builder: (context) {
           return CreateLevel(
-            lesson: Lesson.createNew(),
+            lesson: Lesson.createNew,
           );
         },
       ),
