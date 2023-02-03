@@ -23,11 +23,15 @@ class _CreateLevelState extends State<CreateLevel> {
   void initState() {
     super.initState();
     addQuestionButton();
-    _switchQuestion(0);
+    _switchToQuestion(0);
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final widthOfBar = screenWidth * 0.95;
+    final nOfButtons = _selections.length;
+    final widthOfOneButton = widthOfBar / nOfButtons;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create course'),
@@ -37,16 +41,17 @@ class _CreateLevelState extends State<CreateLevel> {
           ToggleButtons(
             constraints: BoxConstraints.expand(
               height: 50,
-              width:
-                  0.95 * MediaQuery.of(context).size.width / _selections.length,
+              width: widthOfOneButton,
             ),
-            fillColor: Colors.green,
-            selectedBorderColor: Colors.green,
-            isSelected: _selections,
-            onPressed: _switchQuestion,
+            // Visuals
             borderRadius: BorderRadius.circular(8),
             borderWidth: 0,
             borderColor: const Color.fromARGB(255, 151, 151, 151),
+            fillColor: Colors.green,
+            selectedBorderColor: Colors.green,
+            // Logic
+            isSelected: _selections,
+            onPressed: _switchToQuestion,
             children: _selectionButtons,
           ),
           const Text('Question'),
@@ -71,13 +76,10 @@ class _CreateLevelState extends State<CreateLevel> {
   }
 
   void _nextLevel(BuildContext context) {
-    _saveQuestion();
-    const question = Question(prompt: '', answer: '');
-    widget.lesson.addQuestion(question);
-    _currentQuestion = widget.lesson.questions.length - 1;
+    widget.lesson.addQuestion(Question.createNew);
     addQuestionButton();
-    final questionIndex = _selections.length - 1;
-    _switchQuestion(questionIndex);
+    final newQuestionIndex = _selections.length - 1;
+    _switchToQuestion(newQuestionIndex);
   }
 
   void addQuestionButton() {
@@ -99,7 +101,7 @@ class _CreateLevelState extends State<CreateLevel> {
     widget.lesson.questions[_currentQuestion] = question;
   }
 
-  _switchQuestion(int index) {
+  _switchToQuestion(int index) {
     _saveQuestion();
     _currentQuestion = index;
 
