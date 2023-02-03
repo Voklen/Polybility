@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:polybility/course_structure.dart';
 
-class CreateLevel extends StatefulWidget {
-  const CreateLevel({super.key, required this.lesson});
+class CreateLesson extends StatefulWidget {
+  const CreateLesson({super.key, required this.lesson});
 
   final Lesson lesson;
 
   @override
-  State<CreateLevel> createState() => _CreateLevelState();
+  State<CreateLesson> createState() => _CreateLessonState();
 }
 
-class _CreateLevelState extends State<CreateLevel> {
+class _CreateLessonState extends State<CreateLesson> {
   int _currentQuestion = 0;
 
   final _promptController = TextEditingController();

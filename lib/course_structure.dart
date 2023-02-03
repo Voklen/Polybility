@@ -8,6 +8,10 @@ class Course {
   const Course(
       {required this.uniqueID, required this.name, required this.lessons});
 
+  final String uniqueID;
+  final String name;
+  final List<Lesson> lessons;
+
   static final createNew =
       Course(uniqueID: 'course', name: 'New course', lessons: []);
 
@@ -41,34 +45,30 @@ class Course {
 
     return getApplicationDocumentsDirectory();
   }
-
-  final String uniqueID;
-  final String name;
-  final List<Lesson> lessons;
 }
 
 class Lesson {
   Lesson({required this.description, required this.questions});
 
+  final String description;
+  final List<Question> questions;
+
   static final createNew =
       Lesson(description: 'A lesson', questions: [Question.createNew]);
 
   addQuestion(Question question) => questions.add(question);
-  toMap() {
+  Map toMap() {
     final questionsMap = questions.map((e) => e.toMap());
     return {'description': description, 'questions': questionsMap};
   }
-
-  final String description;
-  final List<Question> questions;
 }
 
 class Question {
   const Question({required this.prompt, required this.answer});
 
-  static const createNew = Question(prompt: '', answer: '');
-  toMap() => {'prompt': prompt, 'answer': answer};
-
   final String prompt;
   final String answer;
+
+  static const createNew = Question(prompt: '', answer: '');
+  Map toMap() => {'prompt': prompt, 'answer': answer};
 }
