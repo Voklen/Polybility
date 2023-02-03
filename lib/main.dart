@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:polybility/course_structure.dart';
 import 'package:polybility/create_level.dart';
-import 'package:toml/toml.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,15 +16,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Polybility'),
+      home: MyHomePage(
+        title: 'Polybility',
+        course: Course.createNew,
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, required this.course});
 
   final String title;
+  final Course course;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -46,6 +47,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
     if (!mounted) return;
+    widget.course.addLesson(createdLesson);
+    widget.course.writeToFile();
+    //TODO Add icon and setState
     print(createdLesson.toMap());
   }
 
@@ -72,12 +76,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ),
     );
-  }
-
-  FutureOr _updateLevels(_) {
-    TomlDocument.fromMap(const {
-      'hello': true,
-    }).toString();
   }
 }
 
