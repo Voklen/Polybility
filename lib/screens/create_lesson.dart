@@ -16,14 +16,29 @@ class _CreateLessonState extends State<CreateLesson> {
 
   final _promptController = TextEditingController();
   final _answerController = TextEditingController();
-  final List<Widget> _selectionButtons = [];
-  final List<bool> _selections = [];
+  List<Widget> _selectionButtons = [];
+  List<bool> _selections = [];
 
   @override
   void initState() {
     super.initState();
-    addQuestionButton();
-    _switchToQuestion(0);
+
+    final nOfQuestions = widget.lesson.questions.length;
+    _selectionButtons = List.filled(
+      nOfQuestions,
+      const SizedBox.shrink(),
+      growable: true,
+    );
+    _selections = List.filled(
+      nOfQuestions,
+      false,
+      growable: true,
+    );
+    _selections[0] = true;
+
+    final question = widget.lesson.questions[0];
+    _promptController.text = question.prompt;
+    _answerController.text = question.answer;
   }
 
   @override

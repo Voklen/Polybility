@@ -53,7 +53,7 @@ class Lesson {
   final String description;
   final List<Question> questions;
 
-  static final createNew =
+  static createNew() =>
       Lesson(description: 'A lesson', questions: [Question.createNew]);
 
   addQuestion(Question question) => questions.add(question);

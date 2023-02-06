@@ -13,6 +13,7 @@ class EditCoursePage extends StatefulWidget {
 }
 
 class _EditCoursePageState extends State<EditCoursePage> {
+  final lessonIcons = <Widget>[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,12 +23,7 @@ class _EditCoursePageState extends State<EditCoursePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            LessonIcon(color: Color.fromARGB(255, 137, 216, 34)),
-            LessonIcon(color: Color.fromARGB(255, 43, 128, 161)),
-            LessonIcon(color: Color.fromARGB(255, 175, 150, 37)),
-            LessonIcon(color: Color.fromARGB(255, 34, 52, 216)),
-          ],
+          children: lessonIcons,
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -39,39 +35,73 @@ class _EditCoursePageState extends State<EditCoursePage> {
   }
 
   void _addLesson() async {
-    final Lesson createdLesson = await Navigator.push(
+    final createdLesson = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
           return CreateLesson(
-            lesson: Lesson.createNew,
+            lesson: Lesson.createNew(),
           );
         },
       ),
     );
+    if (createdLesson == null) return;
     if (!mounted) return;
     widget.course.addLesson(createdLesson);
     widget.course.writeToFile();
-    //TODO Add icon and setState
+    setState(() {
+      lessonIcons.add(LessonIcon(
+        color: Color.fromARGB(255, 158, 31, 31),
+        lesson: createdLesson,
+      ));
+    });
     print(createdLesson.toMap());
   }
 }
 
 class LessonIcon extends StatefulWidget {
-  const LessonIcon({super.key, required this.color});
+  const LessonIcon({super.key, required this.color, required this.lesson});
 
   final Color color;
+  final Lesson lesson;
 
   @override
   State<LessonIcon> createState() => _LessonIconState();
 }
 
 class _LessonIconState extends State<LessonIcon> {
+  Lesson lesson = Lesson.createNew();
+
+  @override
+  void initState() {
+    lesson = widget.lesson;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Icon(
-      Icons.circle,
-      color: widget.color,
+    return IconButton(
+      onPressed: _editLesson,
+      icon: Icon(
+        Icons.circle,
+        color: widget.color,
+      ),
     );
+  }
+
+  void _editLesson() async {
+    final editedLesson = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return CreateLesson(
+            lesson: lesson,
+          );
+        },
+      ),
+    );
+    if (editedLesson == null) return;
+
+    lesson = editedLesson;
   }
 }
