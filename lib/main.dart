@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: EditCoursePage(
-        course: Course.createNew,
+        course: Course.createNew(),
       ),
     );
   }

@@ -5,14 +5,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:toml/toml.dart';
 
 class Course {
-  const Course(
-      {required this.uniqueID, required this.name, required this.lessons});
+  Course({required this.uniqueID, required this.name, required this.lessons});
 
   final String uniqueID;
   final String name;
   final List<Lesson> lessons;
 
-  static final createNew =
+  static createNew() =>
       Course(uniqueID: 'course', name: 'New course', lessons: []);
 
   addLesson(Lesson lesson) => lessons.add(lesson);
