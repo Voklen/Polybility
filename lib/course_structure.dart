@@ -5,19 +5,25 @@ import 'package:path_provider/path_provider.dart';
 import 'package:toml/toml.dart';
 
 class Course {
-  Course({required this.uniqueID, required this.name, required this.lessons});
+  Course(
+      {required String uniqueID,
+      required String name,
+      required List<Lesson> lessons})
+      : _lessons = lessons,
+        _name = name,
+        _uniqueID = uniqueID;
 
-  final String uniqueID;
-  final String name;
-  final List<Lesson> lessons;
+  final String _uniqueID;
+  final String _name;
+  final List<Lesson> _lessons;
 
   static createNew() =>
       Course(uniqueID: 'course', name: 'New course', lessons: []);
 
-  addLesson(Lesson lesson) => lessons.add(lesson);
+  addLesson(Lesson lesson) => _lessons.add(lesson);
   Map toMap() {
-    final lessonsMap = lessons.map((e) => e.toMap());
-    return {'name': name, 'lessons': lessonsMap};
+    final lessonsMap = _lessons.map((e) => e.toMap());
+    return {'name': _name, 'lessons': lessonsMap};
   }
 
   Future writeToFile() async {
@@ -29,7 +35,7 @@ class Course {
   Future<String> get _filePath async {
     final Directory directory = await _directory;
     final String directoryPath = directory.path;
-    return "$directoryPath/$uniqueID.toml";
+    return "$directoryPath/$_uniqueID.toml";
   }
 
   Future<Directory> get _directory async {
@@ -47,27 +53,35 @@ class Course {
 }
 
 class Lesson {
-  Lesson({required this.description, required this.questions});
+  Lesson({required String description, required List<Question> questions})
+      : _questions = questions,
+        _description = description;
 
-  final String description;
-  final List<Question> questions;
+  final String _description;
+  final List<Question> _questions;
 
+  getQuestion(int index) => _questions[index];
+  nOfQuestions() => _questions.length;
+  addQuestion(Question question) => _questions.add(question);
+  setQuestion(int index, Question question) => _questions[index] = question;
   static createNew() =>
       Lesson(description: 'A lesson', questions: [Question.createNew]);
-
-  addQuestion(Question question) => questions.add(question);
   Map toMap() {
-    final questionsMap = questions.map((e) => e.toMap());
-    return {'description': description, 'questions': questionsMap};
+    final questionsMap = _questions.map((e) => e.toMap());
+    return {'description': _description, 'questions': questionsMap};
   }
 }
 
 class Question {
-  const Question({required this.prompt, required this.answer});
+  const Question({required String prompt, required String answer})
+      : _answer = answer,
+        _prompt = prompt;
 
-  final String prompt;
-  final String answer;
+  final String _prompt;
+  final String _answer;
 
   static const createNew = Question(prompt: '', answer: '');
-  Map toMap() => {'prompt': prompt, 'answer': answer};
+  Map toMap() => {'prompt': _prompt, 'answer': _answer};
+  String getPrompt() => _prompt;
+  String getAnswer() => _answer;
 }

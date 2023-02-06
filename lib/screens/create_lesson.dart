@@ -23,7 +23,7 @@ class _CreateLessonState extends State<CreateLesson> {
   void initState() {
     super.initState();
 
-    final nOfQuestions = widget.lesson.questions.length;
+    final nOfQuestions = widget.lesson.nOfQuestions();
     _selectionButtons = List.filled(
       nOfQuestions,
       const SizedBox.shrink(),
@@ -36,9 +36,9 @@ class _CreateLessonState extends State<CreateLesson> {
     );
     _selections[0] = true;
 
-    final question = widget.lesson.questions[0];
-    _promptController.text = question.prompt;
-    _answerController.text = question.answer;
+    final question = widget.lesson.getQuestion(0);
+    _promptController.text = question.getPrompt();
+    _answerController.text = question.getAnswer();
   }
 
   @override
@@ -113,16 +113,16 @@ class _CreateLessonState extends State<CreateLesson> {
     final prompt = _promptController.text;
     final answer = _answerController.text;
     final question = Question(prompt: prompt, answer: answer);
-    widget.lesson.questions[_currentQuestion] = question;
+    widget.lesson.setQuestion(_currentQuestion, question);
   }
 
   _switchToQuestion(int index) {
     _saveQuestion();
     _currentQuestion = index;
 
-    final question = widget.lesson.questions[index];
-    _promptController.text = question.prompt;
-    _answerController.text = question.answer;
+    final question = widget.lesson.getQuestion(index);
+    _promptController.text = question.getPrompt();
+    _answerController.text = question.getAnswer();
 
     for (int i = 0; i < _selections.length; i++) {
       _selections[i] = false;
