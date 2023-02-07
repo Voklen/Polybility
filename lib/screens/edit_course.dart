@@ -3,16 +3,16 @@ import 'package:polybility/course_structure.dart';
 
 import 'package:polybility/screens/create_lesson.dart';
 
-class EditCoursePage extends StatefulWidget {
-  const EditCoursePage({super.key, required this.course});
+class EditCourse extends StatefulWidget {
+  const EditCourse({super.key, required this.course});
 
   final Course course;
 
   @override
-  State<EditCoursePage> createState() => _EditCoursePageState();
+  State<EditCourse> createState() => _EditCourseState();
 }
 
-class _EditCoursePageState extends State<EditCoursePage> {
+class _EditCourseState extends State<EditCourse> {
   final lessonIcons = <Widget>[];
   @override
   Widget build(BuildContext context) {

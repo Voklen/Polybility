@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: EditCoursePage(
+      home: EditCourse(
         course: Course.createNew(),
       ),
     );

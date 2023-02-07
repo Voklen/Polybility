@@ -17,7 +17,7 @@ class Course {
   final String _name;
   final List<Lesson> _lessons;
 
-  static createNew() =>
+  static Course createNew() =>
       Course(uniqueID: 'course', name: 'New course', lessons: []);
 
   addLesson(Lesson lesson) => _lessons.add(lesson);
@@ -64,7 +64,7 @@ class Lesson {
   nOfQuestions() => _questions.length;
   addQuestion(Question question) => _questions.add(question);
   setQuestion(int index, Question question) => _questions[index] = question;
-  static createNew() =>
+  static Lesson createNew() =>
       Lesson(description: 'A lesson', questions: [Question.createNew]);
   Map toMap() {
     final questionsMap = _questions.map((e) => e.toMap());

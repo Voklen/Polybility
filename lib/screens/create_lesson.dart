@@ -49,7 +49,7 @@ class _CreateLessonState extends State<CreateLesson> {
     final widthOfOneButton = widthOfBar / nOfButtons;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create course'),
+        title: const Text('Create lesson'),
       ),
       body: Column(
         children: [
