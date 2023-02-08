@@ -70,9 +70,15 @@ class _CreateLessonState extends State<CreateLesson> {
             children: _selectionButtons,
           ),
           const Text('Question'),
-          TextField(controller: _promptController),
+          TextField(
+            controller: _promptController,
+            decoration: const InputDecoration(hintText: 'Prompt'),
+          ),
           const Text('Answer'),
-          TextField(controller: _answerController),
+          TextField(
+            controller: _answerController,
+            decoration: const InputDecoration(hintText: 'Answer'),
+          ),
           Row(
             children: [
               ElevatedButton(
