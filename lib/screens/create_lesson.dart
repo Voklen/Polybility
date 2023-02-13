@@ -83,7 +83,7 @@ class _CreateLessonState extends State<CreateLesson> {
             children: [
               ElevatedButton(
                 onPressed: () => _nextLevel(context),
-                child: const Text('Next level'),
+                child: const Text('Add question'),
               ),
               ElevatedButton(
                 onPressed: () => _submit(context),

@@ -20,7 +20,7 @@ void main() {
     expect(find.text('Create lesson'), findsOneWidget);
   });
 
-  testWidgets('Add question', (WidgetTester tester) async {
+  testWidgets('Add and switch questions', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
       home: CreateLesson(
         lesson: Lesson.createNew(),
@@ -34,15 +34,24 @@ void main() {
     await tester.enterText(promptField, '1st prompt');
 
     final answerField = find.ancestor(
-      of: find.text('Prompt'),
+      of: find.text('Answer'),
       matching: find.byType(TextField),
     );
     await tester.enterText(answerField, '1st answer');
 
+    // Verify that we are on the first question
+    expect(find.text('1st prompt'), findsOneWidget);
+    expect(find.text('1st answer'), findsOneWidget);
+    expect(find.text('2nd prompt'), findsNothing);
+    expect(find.text('2nd answer'), findsNothing);
+
     await tester.tap(find.text('Add question'));
 
+    // Verify that we are on an empty question
     expect(find.text('1st prompt'), findsNothing);
     expect(find.text('1st answer'), findsNothing);
+    expect(find.text('2nd prompt'), findsNothing);
+    expect(find.text('2nd answer'), findsNothing);
 
     final promptField2 = find.ancestor(
       of: find.text('Prompt'),
@@ -51,9 +60,41 @@ void main() {
     await tester.enterText(promptField2, '2nd prompt');
 
     final answerField2 = find.ancestor(
-      of: find.text('Prompt'),
+      of: find.text('Answer'),
       matching: find.byType(TextField),
     );
     await tester.enterText(answerField2, '2nd answer');
+
+    // Verify that we are on the second question
+    expect(find.text('1st prompt'), findsNothing);
+    expect(find.text('1st answer'), findsNothing);
+    expect(find.text('2nd prompt'), findsOneWidget);
+    expect(find.text('2nd answer'), findsOneWidget);
+
+    final levelButtons = find.descendant(
+        of: find.byType(ToggleButtons), matching: find.byType(SizedBox));
+    await tester.tap(levelButtons.first);
+
+    // Verify that we are on the first question
+    expect(find.text('1st prompt'), findsOneWidget);
+    expect(find.text('1st answer'), findsOneWidget);
+    expect(find.text('2nd prompt'), findsNothing);
+    expect(find.text('2nd answer'), findsNothing);
+
+    await tester.tap(levelButtons.last);
+
+    // Verify that we are on the second question
+    expect(find.text('1st prompt'), findsNothing);
+    expect(find.text('1st answer'), findsNothing);
+    expect(find.text('2nd prompt'), findsOneWidget);
+    expect(find.text('2nd answer'), findsOneWidget);
+
+    await tester.tap(levelButtons.first);
+
+    // Verify that we are on the first question
+    expect(find.text('1st prompt'), findsOneWidget);
+    expect(find.text('1st answer'), findsOneWidget);
+    expect(find.text('2nd prompt'), findsNothing);
+    expect(find.text('2nd answer'), findsNothing);
   });
 }
