@@ -48,7 +48,6 @@ class _EditCourseState extends State<EditCourse> {
     if (createdLesson == null) return;
     if (!mounted) return;
     widget.course.addLesson(createdLesson);
-    widget.course.writeToFile();
     setState(() {
       lessonIcons.add(LessonIcon(
         color: Color.fromARGB(255, 158, 31, 31),

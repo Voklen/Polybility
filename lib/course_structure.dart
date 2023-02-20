@@ -20,13 +20,17 @@ class Course {
   static Course createNew() =>
       Course(uniqueID: 'course', name: 'New course', lessons: []);
 
-  addLesson(Lesson lesson) => _lessons.add(lesson);
+  addLesson(Lesson lesson) {
+    _lessons.add(lesson);
+    _writeToFile();
+  }
+
   Map toMap() {
     final lessonsMap = _lessons.map((e) => e.toMap());
     return {'name': _name, 'lessons': lessonsMap};
   }
 
-  Future writeToFile() async {
+  Future _writeToFile() async {
     final courseAsMap = toMap();
     final courseAsToml = TomlDocument.fromMap(courseAsMap).toString();
     File(await _filePath).writeAsString(courseAsToml);
