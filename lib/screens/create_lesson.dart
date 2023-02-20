@@ -36,9 +36,9 @@ class _CreateLessonState extends State<CreateLesson> {
     );
     _selections[0] = true;
 
-    final question = widget.lesson.getQuestion(0);
-    _promptController.text = question.getPrompt();
-    _answerController.text = question.getAnswer();
+    Question question = widget.lesson.getQuestion(0);
+    _promptController.text = question.prompt;
+    _answerController.text = question.answer;
   }
 
   @override
@@ -126,9 +126,9 @@ class _CreateLessonState extends State<CreateLesson> {
     _saveQuestion();
     _currentQuestion = index;
 
-    final question = widget.lesson.getQuestion(index);
-    _promptController.text = question.getPrompt();
-    _answerController.text = question.getAnswer();
+    Question question = widget.lesson.getQuestion(index);
+    _promptController.text = question.prompt;
+    _answerController.text = question.answer;
 
     for (int i = 0; i < _selections.length; i++) {
       _selections[i] = false;

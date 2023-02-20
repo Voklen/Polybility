@@ -73,15 +73,11 @@ class Lesson {
 }
 
 class Question {
-  const Question({required String prompt, required String answer})
-      : _answer = answer,
-        _prompt = prompt;
+  const Question({required this.prompt, required this.answer});
 
-  final String _prompt;
-  final String _answer;
+  final String prompt;
+  final String answer;
 
   static const createNew = Question(prompt: '', answer: '');
-  Map toMap() => {'prompt': _prompt, 'answer': _answer};
-  String getPrompt() => _prompt;
-  String getAnswer() => _answer;
+  Map toMap() => {'prompt': prompt, 'answer': answer};
 }

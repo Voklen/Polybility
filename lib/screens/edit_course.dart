@@ -55,7 +55,6 @@ class _EditCourseState extends State<EditCourse> {
         lesson: createdLesson,
       ));
     });
-    print(createdLesson.toMap());
   }
 }
 
