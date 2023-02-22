@@ -25,6 +25,8 @@ class Course {
     _writeToFile();
   }
 
+  List<Lesson> getLessons() => _lessons;
+
   Map toMap() {
     final lessonsMap = _lessons.map((e) => e.toMap());
     return {'name': _name, 'lessons': lessonsMap};
@@ -40,7 +42,7 @@ class Course {
   static Future<Course> fromFile(String filename) async {
     final Directory directory = await _directory;
     final String directoryPath = directory.path;
-    final String path = "$directoryPath/course.toml";
+    final String path = "$directoryPath/$filename.toml";
     final TomlDocument toml = await TomlDocument.load(path);
     final Map map = toml.toMap();
     return Course._fromMap(map);
