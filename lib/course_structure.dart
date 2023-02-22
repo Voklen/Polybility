@@ -25,6 +25,7 @@ class Course {
     _writeToFile();
   }
 
+  String getName() => _name;
   List<Lesson> getLessons() => _lessons;
 
   Map toMap() {

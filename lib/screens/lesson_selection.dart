@@ -6,27 +6,27 @@ class LessonSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lessonWidgetsFuture = _createLessonWidgets();
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Play Course'),
-      ),
-      body: FutureBuilder(
-        future: lessonWidgetsFuture,
-        builder: (context, snapshot) {
-          final lessonWidgets = snapshot.data ?? [];
-          return Column(
+    final courseFuture = _readCourse();
+    return FutureBuilder(
+      future: courseFuture,
+      builder: (context, snapshot) {
+        Course? course = snapshot.data ?? Course.createNew();
+        List<Widget> lessonWidgets = _createLessonWidgets(course);
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(course.getName()),
+          ),
+          body: Column(
             children: lessonWidgets,
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
-  Future<List<Widget>> _createLessonWidgets() async {
-    Course course = await _readCourse();
-    List<Widget> lessonWidgets =
-        course.getLessons().map(_lessonToWidget).toList();
+  List<Widget> _createLessonWidgets(Course course) {
+    List<Lesson> lessons = course.getLessons();
+    List<Widget> lessonWidgets = lessons.map(_lessonToWidget).toList();
     return lessonWidgets;
   }
 
