@@ -30,6 +30,22 @@ class Course {
     return {'name': _name, 'lessons': lessonsMap};
   }
 
+  static Course _fromMap(Map map) {
+    String name = map['name'];
+    List<Map> lessonsMap = map['lessons'];
+    List<Lesson> lessons = lessonsMap.map(Lesson.fromMap).toList();
+    return Course(uniqueID: 'course', name: name, lessons: lessons);
+  }
+
+  static Future<Course> fromFile(String filename) async {
+    final Directory directory = await _directory;
+    final String directoryPath = directory.path;
+    final String path = "$directoryPath/course.toml";
+    final TomlDocument toml = await TomlDocument.load(path);
+    final Map map = toml.toMap();
+    return Course._fromMap(map);
+  }
+
   Future _writeToFile() async {
     final courseAsMap = toMap();
     final courseAsToml = TomlDocument.fromMap(courseAsMap).toString();
@@ -42,7 +58,7 @@ class Course {
     return "$directoryPath/$_uniqueID.toml";
   }
 
-  Future<Directory> get _directory async {
+  static Future<Directory> get _directory async {
     WidgetsFlutterBinding.ensureInitialized();
 
     if (Platform.isAndroid) {
@@ -74,6 +90,13 @@ class Lesson {
     final questionsMap = _questions.map((e) => e.toMap());
     return {'description': _description, 'questions': questionsMap};
   }
+
+  static Lesson fromMap(Map map) {
+    String description = map['description'];
+    List<Map> questionsMap = map['questions'];
+    List<Question> questions = questionsMap.map(Question.fromMap).toList();
+    return Lesson(description: description, questions: questions);
+  }
 }
 
 class Question {
@@ -84,4 +107,9 @@ class Question {
 
   static const createNew = Question(prompt: '', answer: '');
   Map toMap() => {'prompt': prompt, 'answer': answer};
+  static Question fromMap(Map map) {
+    String prompt = map['prompt'];
+    String answer = map['answer'];
+    return Question(prompt: prompt, answer: answer);
+  }
 }
