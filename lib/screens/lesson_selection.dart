@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polybility/course_structure.dart';
+import 'package:polybility/screens/play_lesson.dart';
 
 class LessonSelection extends StatelessWidget {
   const LessonSelection({super.key});
@@ -34,8 +35,23 @@ class LessonSelection extends StatelessWidget {
   }
 
   Widget _lessonToWidget(Lesson lesson) {
+    return LessonIcon(lesson: lesson);
+  }
+
+  Future<Course> _readCourse() async {
+    return Course.fromFile('course');
+  }
+}
+
+class LessonIcon extends StatelessWidget {
+  const LessonIcon({super.key, required this.lesson});
+
+  final Lesson lesson;
+
+  @override
+  Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {},
+      onPressed: () => _playLesson(context),
       icon: Icon(
         Icons.circle,
         color: Color.fromARGB(255, 158, 31, 31),
@@ -43,7 +59,16 @@ class LessonSelection extends StatelessWidget {
     );
   }
 
-  Future<Course> _readCourse() async {
-    return Course.fromFile('course');
+  void _playLesson(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return PlayLesson(
+            lesson: lesson,
+          );
+        },
+      ),
+    );
   }
 }
