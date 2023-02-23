@@ -10,14 +10,17 @@ class LessonSelection extends StatelessWidget {
     return FutureBuilder(
       future: courseFuture,
       builder: (context, snapshot) {
-        Course? course = snapshot.data ?? Course.createNew();
+        Course course = snapshot.data ?? Course.createNew();
         List<Widget> lessonWidgets = _createLessonWidgets(course);
         return Scaffold(
           appBar: AppBar(
             title: Text(course.getName()),
           ),
-          body: Column(
-            children: lessonWidgets,
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: lessonWidgets,
+            ),
           ),
         );
       },
