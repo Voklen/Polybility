@@ -18,6 +18,7 @@ class _PlayLessonState extends State<PlayLesson> {
   final _answerController = TextEditingController();
   List<Widget> _selectionButtons = [];
   List<bool> _selections = [];
+  double _lessonProgress = 0;
 
   @override
   void initState() {
@@ -43,32 +44,17 @@ class _PlayLessonState extends State<PlayLesson> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final widthOfBar = screenWidth * 0.95;
-    final nOfButtons = _selections.length;
-    final widthOfOneButton = widthOfBar / nOfButtons;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create lesson'),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        foregroundColor: Colors.black,
+        title: LinearProgressIndicator(
+          value: _lessonProgress,
+        ),
       ),
       body: Column(
         children: [
-          ToggleButtons(
-            constraints: BoxConstraints.expand(
-              height: 50,
-              width: widthOfOneButton,
-            ),
-            // Visuals
-            borderRadius: BorderRadius.circular(8),
-            borderWidth: 0,
-            borderColor: const Color.fromARGB(255, 151, 151, 151),
-            fillColor: Colors.green,
-            selectedBorderColor: Colors.green,
-            // Logic
-            isSelected: _selections,
-            onPressed: _switchToQuestion,
-            children: _selectionButtons,
-          ),
           const Text('Question'),
           TextField(
             controller: _promptController,
@@ -82,8 +68,8 @@ class _PlayLessonState extends State<PlayLesson> {
           Row(
             children: [
               ElevatedButton(
-                onPressed: () => _nextLevel(context),
-                child: const Text('Add question'),
+                onPressed: () => _nextQuestion(context),
+                child: const Text('Next question'),
               ),
               ElevatedButton(
                 onPressed: () => _submit(context),
@@ -96,18 +82,13 @@ class _PlayLessonState extends State<PlayLesson> {
     );
   }
 
-  void _nextLevel(BuildContext context) {
-    widget.lesson.addQuestion(Question.createNew);
-    addQuestionButton();
-    final newQuestionIndex = _selections.length - 1;
-    _switchToQuestion(newQuestionIndex);
-  }
-
-  void addQuestionButton() {
-    _selections.add(false);
-    _selectionButtons.add(
-      const SizedBox.shrink(),
-    );
+  void _nextQuestion(BuildContext context) {
+    _currentQuestion += 1;
+    Question question = widget.lesson.getQuestion(_currentQuestion);
+    _promptController.text = question.prompt;
+    setState(() {
+      _lessonProgress = _currentQuestion / widget.lesson.nOfQuestions();
+    });
   }
 
   void _submit(BuildContext context) {
@@ -120,21 +101,5 @@ class _PlayLessonState extends State<PlayLesson> {
     final answer = _answerController.text;
     final question = Question(prompt: prompt, answer: answer);
     widget.lesson.setQuestion(_currentQuestion, question);
-  }
-
-  _switchToQuestion(int index) {
-    _saveQuestion();
-    _currentQuestion = index;
-
-    Question question = widget.lesson.getQuestion(index);
-    _promptController.text = question.prompt;
-    _answerController.text = question.answer;
-
-    for (int i = 0; i < _selections.length; i++) {
-      _selections[i] = false;
-    }
-    setState(() {
-      _selections[index] = true;
-    });
   }
 }
