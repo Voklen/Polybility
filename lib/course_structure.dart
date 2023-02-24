@@ -20,7 +20,7 @@ class Course {
   static Course createNew() =>
       Course(uniqueID: 'course', name: 'New course', lessons: []);
 
-  addLesson(Lesson lesson) {
+  void addLesson(Lesson lesson) {
     _lessons.add(lesson);
     _writeToFile();
   }
@@ -83,10 +83,11 @@ class Lesson {
   final String _description;
   final List<Question> _questions;
 
-  getQuestion(int index) => _questions[index];
-  nOfQuestions() => _questions.length;
-  addQuestion(Question question) => _questions.add(question);
-  setQuestion(int index, Question question) => _questions[index] = question;
+  Question getQuestion(int index) => _questions[index];
+  int nOfQuestions() => _questions.length;
+  void addQuestion(Question question) => _questions.add(question);
+  void setQuestion(int index, Question question) =>
+      _questions[index] = question;
   static Lesson createNew() =>
       Lesson(description: 'A lesson', questions: [Question.createNew]);
   Map toMap() {
