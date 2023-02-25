@@ -12,11 +12,16 @@ class PlayLesson extends StatefulWidget {
 }
 
 class _PlayLessonState extends State<PlayLesson> {
-  int _currentQuestion = 0;
+  int _currentQuestionIndex = 0;
+  Question get _currentQuestion =>
+      widget.lesson.getQuestion(_currentQuestionIndex);
 
   String _prompt = "";
   final _answerController = TextEditingController();
   double _lessonProgress = 0;
+
+  bool _showingIncorrect = false;
+  bool _showingCorrect = false;
 
   @override
   void initState() {
@@ -43,8 +48,28 @@ class _PlayLessonState extends State<PlayLesson> {
             controller: _answerController,
             decoration: const InputDecoration(hintText: 'Answer'),
           ),
+          Visibility(
+            visible: _showingCorrect,
+            child: const Card(
+              margin: EdgeInsets.only(top: 10),
+              child: Text(
+                'Correct!',
+                style: TextStyle(color: Colors.green),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: _showingIncorrect,
+            child: const Card(
+              margin: EdgeInsets.only(top: 10),
+              child: Text(
+                'Incorrect!',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ),
           ElevatedButton(
-            onPressed: _nextQuestion,
+            onPressed: _check,
             child: const Text('Check'),
           ),
         ],
@@ -52,17 +77,32 @@ class _PlayLessonState extends State<PlayLesson> {
     );
   }
 
+  void _check() {
+    if (_showingCorrect || _showingIncorrect) {
+      _showingCorrect = false;
+      _showingIncorrect = false;
+      _nextQuestion();
+      setState(() {});
+      return;
+    }
+    if (_answerController.text == _currentQuestion.answer) {
+      _showingCorrect = true;
+    } else {
+      _showingIncorrect = true;
+    }
+    setState(() {});
+  }
+
   void _nextQuestion() {
-    _currentQuestion += 1;
-    if (_currentQuestion == widget.lesson.nOfQuestions()) {
+    _currentQuestionIndex += 1;
+    if (_currentQuestionIndex == widget.lesson.nOfQuestions()) {
       //TODO save XP to file and go to congratulations screen
       Navigator.pop(context, widget.lesson);
       return;
     }
-    Question question = widget.lesson.getQuestion(_currentQuestion);
-    _prompt = question.prompt;
+    _prompt = _currentQuestion.prompt;
     setState(() {
-      _lessonProgress = _currentQuestion / widget.lesson.nOfQuestions();
+      _lessonProgress = _currentQuestionIndex / widget.lesson.nOfQuestions();
     });
   }
 }
