@@ -15,13 +15,14 @@ class _PlayLessonState extends State<PlayLesson> {
   int _currentQuestionIndex = 0;
   Question get _currentQuestion =>
       widget.lesson.getQuestion(_currentQuestionIndex);
+  double _lessonProgress = 0;
 
   String _prompt = "";
   final _answerController = TextEditingController();
-  double _lessonProgress = 0;
 
   bool _showingIncorrect = false;
   bool _showingCorrect = false;
+  String _bottomButtonText = "Check";
 
   @override
   void initState() {
@@ -74,7 +75,7 @@ class _PlayLessonState extends State<PlayLesson> {
                 onPressed: _check,
                 minWidth: double.infinity,
                 color: Colors.green,
-                child: const Text('Check'),
+                child: Text(_bottomButtonText),
               ),
             ),
           ],
@@ -84,22 +85,25 @@ class _PlayLessonState extends State<PlayLesson> {
   }
 
   void _check() {
-    if (_showingCorrect || _showingIncorrect) {
-      _showingCorrect = false;
-      _showingIncorrect = false;
+    bool isContinueButton = _showingCorrect || _showingIncorrect;
+    if (isContinueButton) {
       _nextQuestion();
-      setState(() {});
       return;
     }
+
     if (_answerController.text == _currentQuestion.answer) {
       _showingCorrect = true;
     } else {
       _showingIncorrect = true;
     }
-    setState(() {});
+    setState(() {
+      _bottomButtonText = 'Continue';
+    });
   }
 
   void _nextQuestion() {
+    _showingCorrect = false;
+    _showingIncorrect = false;
     _currentQuestionIndex += 1;
     if (_currentQuestionIndex == widget.lesson.nOfQuestions()) {
       //TODO save XP to file and go to congratulations screen
@@ -107,6 +111,7 @@ class _PlayLessonState extends State<PlayLesson> {
       return;
     }
     _prompt = _currentQuestion.prompt;
+    _answerController.clear();
     setState(() {
       _lessonProgress = _currentQuestionIndex / widget.lesson.nOfQuestions();
     });
