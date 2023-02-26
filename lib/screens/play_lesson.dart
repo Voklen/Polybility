@@ -48,31 +48,37 @@ class _PlayLessonState extends State<PlayLesson> {
             controller: _answerController,
             decoration: const InputDecoration(hintText: 'Answer'),
           ),
-          Visibility(
-            visible: _showingCorrect,
-            child: const Card(
-              margin: EdgeInsets.only(top: 10),
-              child: Text(
+        ],
+      ),
+      bottomNavigationBar: Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Visibility(
+              visible: _showingCorrect,
+              child: const Text(
                 'Correct!',
                 style: TextStyle(color: Colors.green),
               ),
             ),
-          ),
-          Visibility(
-            visible: _showingIncorrect,
-            child: const Card(
-              margin: EdgeInsets.only(top: 10),
-              child: Text(
+            Visibility(
+              visible: _showingIncorrect,
+              child: const Text(
                 'Incorrect!',
                 style: TextStyle(color: Colors.red),
               ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: _check,
-            child: const Text('Check'),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MaterialButton(
+                onPressed: _check,
+                minWidth: double.infinity,
+                color: Colors.green,
+                child: const Text('Check'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
