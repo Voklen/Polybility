@@ -19,9 +19,15 @@ class LessonSelection extends StatelessWidget {
             title: Text(course.getName()),
           ),
           drawer: Drawer(
-            child: ElevatedButton(
-                onPressed: () => _toCourseCreation(context),
-                child: const Text('Create course')),
+            child: Column(
+              children: [
+                const CreateEditToggle(),
+                ElevatedButton(
+                  onPressed: () => _toCourseCreation(context),
+                  child: const Text('Create course'),
+                ),
+              ],
+            ),
           ),
           body: Center(
             child: Column(
@@ -86,6 +92,45 @@ class LessonIcon extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class CreateEditToggle extends StatefulWidget {
+  const CreateEditToggle({super.key});
+
+  @override
+  State<CreateEditToggle> createState() => _CreateEditToggleState();
+}
+
+class _CreateEditToggleState extends State<CreateEditToggle> {
+  final List<bool> _isSelected = [true, false];
+
+  @override
+  Widget build(BuildContext context) {
+    return ToggleButtons(
+      isSelected: _isSelected,
+      selectedColor: Colors.white,
+      fillColor: Colors.blue,
+      children: const [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text('Create'),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text('Edit'),
+        ),
+      ],
+      onPressed: (int index) {
+        if (_isSelected[index]) {
+          return;
+        }
+        setState(() {
+          _isSelected[0] = !_isSelected[0];
+          _isSelected[1] = !_isSelected[1];
+        });
+      },
     );
   }
 }
