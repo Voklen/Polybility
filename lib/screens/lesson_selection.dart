@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polybility/course_structure.dart';
+import 'package:polybility/screens/edit_course.dart';
 import 'package:polybility/screens/play_lesson.dart';
 
 class LessonSelection extends StatelessWidget {
@@ -16,6 +17,11 @@ class LessonSelection extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(course.getName()),
+          ),
+          drawer: Drawer(
+            child: ElevatedButton(
+                onPressed: () => _toCourseCreation(context),
+                child: const Text('Create course')),
           ),
           body: Center(
             child: Column(
@@ -40,6 +46,17 @@ class LessonSelection extends StatelessWidget {
 
   Future<Course> _readCourse() async {
     return Course.fromFile('course');
+  }
+
+  _toCourseCreation(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return EditCourse(course: Course.createNew());
+        },
+      ),
+    );
   }
 }
 
