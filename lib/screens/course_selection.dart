@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:polybility/course_structure.dart';
 import 'package:polybility/screens/edit_course.dart';
+import 'package:polybility/screens/lesson_selection.dart';
 
 class CourseSelection extends StatefulWidget {
   const CourseSelection({super.key});
@@ -11,35 +12,71 @@ class CourseSelection extends StatefulWidget {
 }
 
 class _CourseSelectionState extends State<CourseSelection> {
+  bool playCourse = true;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const CreateEditToggle(),
+        CreateEditToggle(
+          onToggle: _switchMode,
+        ),
         ElevatedButton(
-          onPressed: () => _toCourseCreation(context),
+          onPressed: () => _newCourse(),
           child: const Text('Create course'),
         ),
-        CoursesList(),
+        CoursesList(
+          onCourseButtonPress: _courseButtonPressed,
+        ),
       ],
     );
   }
 
-  _toCourseCreation(BuildContext context) {
+  void _switchMode() {
+    playCourse = !playCourse;
+  }
+
+  void _courseButtonPressed(String courseName) {
+    if (playCourse) {
+      _playCourse(courseName);
+    } else {
+      _editCourse(courseName);
+    }
+  }
+
+  void _playCourse(String name) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
-          return EditCourse(
-              course: Course(name: 'New course', uniqueID: 'course'));
+          return LessonSelection(
+            courseName: name,
+          );
         },
       ),
     );
   }
+
+  void _editCourse(String name) async {
+    final course = await Course.fromFile(name);
+    if (!mounted) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return EditCourse(course: course);
+        },
+      ),
+    );
+  }
+
+  _newCourse() {}
 }
 
 class CreateEditToggle extends StatefulWidget {
-  const CreateEditToggle({super.key});
+  const CreateEditToggle({super.key, required this.onToggle});
+
+  final void Function() onToggle;
 
   @override
   State<CreateEditToggle> createState() => _CreateEditToggleState();
@@ -57,7 +94,7 @@ class _CreateEditToggleState extends State<CreateEditToggle> {
       children: const [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text('Create'),
+          child: Text('Play'),
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -69,6 +106,7 @@ class _CreateEditToggleState extends State<CreateEditToggle> {
           return;
         }
         setState(() {
+          widget.onToggle();
           _isSelected[0] = !_isSelected[0];
           _isSelected[1] = !_isSelected[1];
         });
@@ -78,7 +116,9 @@ class _CreateEditToggleState extends State<CreateEditToggle> {
 }
 
 class CoursesList extends StatefulWidget {
-  const CoursesList({super.key});
+  const CoursesList({super.key, required this.onCourseButtonPress});
+
+  final void Function(String) onCourseButtonPress;
 
   @override
   State<CoursesList> createState() => _CoursesListState();
@@ -102,7 +142,10 @@ class _CoursesListState extends State<CoursesList> {
 
   void getCourses() {
     Course.getCourses().forEach((courseName) {
-      final courseButton = CourseButton(courseName: courseName);
+      final courseButton = CourseButton(
+        courseName: courseName,
+        onPressed: () => widget.onCourseButtonPress(courseName),
+      );
       setState(() {
         items.add(courseButton);
       });
@@ -111,15 +154,18 @@ class _CoursesListState extends State<CoursesList> {
 }
 
 class CourseButton extends StatelessWidget {
-  const CourseButton({super.key, required this.courseName});
+  const CourseButton(
+      {super.key, required this.courseName, required this.onPressed});
 
   final String courseName;
+  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(courseName),
-      tileColor: const Color.fromARGB(255, 91, 219, 119),
+    return MaterialButton(
+      onPressed: onPressed,
+      color: const Color.fromARGB(255, 91, 219, 119),
+      child: Text(courseName),
     );
   }
 }

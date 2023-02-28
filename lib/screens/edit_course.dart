@@ -6,6 +6,7 @@ import 'package:polybility/screens/create_lesson.dart';
 class EditCourse extends StatefulWidget {
   const EditCourse({super.key, required this.course});
 
+  //TODO take a course name instead of a course
   final Course course;
 
   @override
@@ -14,6 +15,7 @@ class EditCourse extends StatefulWidget {
 
 class _EditCourseState extends State<EditCourse> {
   final lessonIcons = <Widget>[];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

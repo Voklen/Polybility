@@ -5,7 +5,9 @@ import 'package:polybility/screens/edit_course.dart';
 import 'package:polybility/screens/play_lesson.dart';
 
 class LessonSelection extends StatelessWidget {
-  const LessonSelection({super.key});
+  const LessonSelection({super.key, required this.courseName});
+
+  final String courseName;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class LessonSelection extends StatelessWidget {
   }
 
   Future<Course> _readCourse() async {
-    return Course.fromFile('course');
+    return Course.fromFile(courseName);
   }
 }
 

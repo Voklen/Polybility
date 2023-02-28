@@ -18,7 +18,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LessonSelection(),
+      home: LessonSelection(
+        courseName: 'course',
+      ),
     );
   }
 }

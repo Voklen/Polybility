@@ -35,9 +35,9 @@ class Course {
     return Course(uniqueID: 'course', name: name, lessons: lessons);
   }
 
-  static Future<Course> fromFile(String filename) async {
+  static Future<Course> fromFile(String name) async {
     final String directory = await _saveDirectory;
-    final String path = "$directory/$filename.toml";
+    final String path = "$directory/$name.toml";
     final TomlDocument toml = await TomlDocument.load(path);
     final Map map = toml.toMap();
     return Course._fromMap(map);
