@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:polybility/course_structure.dart';
+import 'package:polybility/screens/create_course.dart';
 import 'package:polybility/screens/edit_course.dart';
 import 'package:polybility/screens/play_course.dart';
 
@@ -22,7 +23,7 @@ class _CourseSelectionState extends State<CourseSelection> {
           onToggle: _switchMode,
         ),
         ElevatedButton(
-          onPressed: () => _newCourse(),
+          onPressed: _newCourse,
           child: const Text('Create course'),
         ),
         CoursesList(
@@ -70,7 +71,16 @@ class _CourseSelectionState extends State<CourseSelection> {
     );
   }
 
-  _newCourse() {}
+  _newCourse() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return const CreateCourse();
+        },
+      ),
+    );
+  }
 }
 
 class CreateEditToggle extends StatefulWidget {

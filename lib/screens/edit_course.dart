@@ -14,7 +14,11 @@ class EditCourse extends StatefulWidget {
 }
 
 class _EditCourseState extends State<EditCourse> {
-  final lessonIcons = <Widget>[];
+  late final lessonIcons =
+      widget.course.getLessons().map(_lessonToIcon).toList();
+
+  static Widget _lessonToIcon(Lesson lesson) =>
+      LessonIcon(color: Color.fromARGB(255, 158, 31, 31), lesson: lesson);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +52,6 @@ class _EditCourseState extends State<EditCourse> {
       ),
     );
     if (createdLesson == null) return;
-    if (!mounted) return;
     widget.course.addLesson(createdLesson);
     setState(() {
       lessonIcons.add(LessonIcon(
