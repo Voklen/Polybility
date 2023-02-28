@@ -36,9 +36,8 @@ class Course {
   }
 
   static Future<Course> fromFile(String filename) async {
-    final Directory directory = await _directory;
-    final String directoryPath = directory.path;
-    final String path = "$directoryPath/$filename.toml";
+    final String directory = await _saveDirectory;
+    final String path = "$directory/$filename.toml";
     final TomlDocument toml = await TomlDocument.load(path);
     final Map map = toml.toMap();
     return Course._fromMap(map);
@@ -51,12 +50,17 @@ class Course {
   }
 
   Future<String> get _filePath async {
-    final Directory directory = await _directory;
-    final String directoryPath = directory.path;
+    final String directoryPath = await _saveDirectory;
     return "$directoryPath/$_uniqueID.toml";
   }
 
-  static Future<Directory> get _directory async {
+  static Future<String> get _saveDirectory async {
+    final directory = await _rootDirectory;
+    final directoryPath = directory.path;
+    return '$directoryPath/polybility';
+  }
+
+  static Future<Directory> get _rootDirectory async {
     WidgetsFlutterBinding.ensureInitialized();
 
     if (Platform.isAndroid) {
