@@ -53,8 +53,19 @@ class Course {
     final path = await _saveDirectory;
     final directory = Directory(path);
     final files = directory.list();
-    String getFilename(file) => file.uri.pathSegments.last;
-    yield* files.map(getFilename);
+    yield* files.map(_toFilenames).where(_isTOMLfile).map(_removeExtension);
+  }
+
+  static String _toFilenames(FileSystemEntity file) {
+    return file.uri.pathSegments.last;
+  }
+
+  static bool _isTOMLfile(String filename) {
+    return filename.endsWith('.toml');
+  }
+
+  static String _removeExtension(String filename) {
+    return filename.substring(0, filename.length - 5);
   }
 
   Future<String> get _filePath async {
