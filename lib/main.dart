@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:polybility/course_structure.dart';
 
-import 'package:polybility/screens/edit_course.dart';
-import 'package:polybility/screens/lesson_selection.dart';
+import 'package:polybility/screens/play_course.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LessonSelection(
+      home: const PlayCourse(
         courseName: 'course',
       ),
     );

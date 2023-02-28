@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:polybility/course_structure.dart';
 
+import 'package:polybility/course_structure.dart';
 import 'package:polybility/screens/create_lesson.dart';
 
 class EditCourse extends StatefulWidget {

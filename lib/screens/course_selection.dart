@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:polybility/course_structure.dart';
 import 'package:polybility/screens/edit_course.dart';
-import 'package:polybility/screens/lesson_selection.dart';
+import 'package:polybility/screens/play_course.dart';
 
 class CourseSelection extends StatefulWidget {
   const CourseSelection({super.key});
@@ -49,7 +49,7 @@ class _CourseSelectionState extends State<CourseSelection> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return LessonSelection(
+          return PlayCourse(
             courseName: name,
           );
         },

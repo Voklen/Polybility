@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:polybility/course_structure.dart';
 import 'package:polybility/screens/course_selection.dart';
-import 'package:polybility/screens/edit_course.dart';
 import 'package:polybility/screens/play_lesson.dart';
 
-class LessonSelection extends StatelessWidget {
-  const LessonSelection({super.key, required this.courseName});
+class PlayCourse extends StatelessWidget {
+  const PlayCourse({super.key, required this.courseName});
 
   final String courseName;
 
