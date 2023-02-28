@@ -20,6 +20,7 @@ class _CourseSelectionState extends State<CourseSelection> {
           onPressed: () => _toCourseCreation(context),
           child: const Text('Create course'),
         ),
+        CoursesList(),
       ],
     );
   }
@@ -72,6 +73,53 @@ class _CreateEditToggleState extends State<CreateEditToggle> {
           _isSelected[1] = !_isSelected[1];
         });
       },
+    );
+  }
+}
+
+class CoursesList extends StatefulWidget {
+  const CoursesList({super.key});
+
+  @override
+  State<CoursesList> createState() => _CoursesListState();
+}
+
+class _CoursesListState extends State<CoursesList> {
+  List<Widget> items = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getCourses();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: items,
+    );
+  }
+
+  void getCourses() {
+    Course.getCourses().forEach((courseName) {
+      final courseButton = CourseButton(courseName: courseName);
+      setState(() {
+        items.add(courseButton);
+      });
+    });
+  }
+}
+
+class CourseButton extends StatelessWidget {
+  const CourseButton({super.key, required this.courseName});
+
+  final String courseName;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(courseName),
+      tileColor: const Color.fromARGB(255, 91, 219, 119),
     );
   }
 }

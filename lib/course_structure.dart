@@ -49,15 +49,25 @@ class Course {
     File(await _filePath).writeAsString(courseAsToml);
   }
 
+  static Stream<String> getCourses() async* {
+    final path = await _saveDirectory;
+    final directory = Directory(path);
+    final files = directory.list();
+    String getFilename(file) => file.uri.pathSegments.last;
+    yield* files.map(getFilename);
+  }
+
   Future<String> get _filePath async {
     final String directoryPath = await _saveDirectory;
-    return "$directoryPath/$_uniqueID.toml";
+    return '$directoryPath/$_uniqueID.toml';
   }
 
   static Future<String> get _saveDirectory async {
-    final directory = await _rootDirectory;
-    final directoryPath = directory.path;
-    return '$directoryPath/polybility';
+    final rootDirectory = await _rootDirectory;
+    final rootDirectoryPath = rootDirectory.path;
+    final saveDirectoryPath = '$rootDirectoryPath/polybility';
+    Directory(saveDirectoryPath).createSync();
+    return saveDirectoryPath;
   }
 
   static Future<Directory> get _rootDirectory async {
