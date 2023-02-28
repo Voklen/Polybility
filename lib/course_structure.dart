@@ -6,19 +6,14 @@ import 'package:toml/toml.dart';
 
 class Course {
   Course(
-      {required String uniqueID,
-      required String name,
-      required List<Lesson> lessons})
-      : _lessons = lessons,
+      {required String uniqueID, required String name, List<Lesson>? lessons})
+      : _uniqueID = uniqueID,
         _name = name,
-        _uniqueID = uniqueID;
+        _lessons = lessons ?? [];
 
   final String _uniqueID;
   final String _name;
   final List<Lesson> _lessons;
-
-  static Course createNew() =>
-      Course(uniqueID: 'course', name: 'New course', lessons: []);
 
   void addLesson(Lesson lesson) {
     _lessons.add(lesson);
@@ -76,9 +71,9 @@ class Course {
 }
 
 class Lesson {
-  Lesson({required String description, required List<Question> questions})
-      : _questions = questions,
-        _description = description;
+  Lesson({String? description, List<Question>? questions})
+      : _description = description ?? '',
+        _questions = questions ?? [];
 
   final String _description;
   final List<Question> _questions;
@@ -88,8 +83,6 @@ class Lesson {
   void addQuestion(Question question) => _questions.add(question);
   void setQuestion(int index, Question question) =>
       _questions[index] = question;
-  static Lesson createNew() =>
-      Lesson(description: 'A lesson', questions: [Question.createNew]);
   Map toMap() {
     final questionsMap = _questions.map((e) => e.toMap());
     return {'description': _description, 'questions': questionsMap};
@@ -104,12 +97,13 @@ class Lesson {
 }
 
 class Question {
-  const Question({required this.prompt, required this.answer});
+  const Question({String? prompt, String? answer})
+      : prompt = prompt ?? '',
+        answer = answer ?? '';
 
   final String prompt;
   final String answer;
 
-  static const createNew = Question(prompt: '', answer: '');
   Map toMap() => {'prompt': prompt, 'answer': answer};
   static Question fromMap(Map map) {
     String prompt = map['prompt'];

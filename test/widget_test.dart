@@ -9,7 +9,7 @@ void main() {
   testWidgets('Navigation to new lesson', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
       home: EditCourse(
-        course: Course.createNew(),
+        course: Course(name: 'New course', uniqueID: 'course'),
       ),
     ));
 
@@ -23,7 +23,7 @@ void main() {
   testWidgets('Add and switch questions', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
       home: CreateLesson(
-        lesson: Lesson.createNew(),
+        lesson: Lesson(),
       ),
     ));
 

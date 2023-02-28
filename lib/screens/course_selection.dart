@@ -29,7 +29,8 @@ class _CourseSelectionState extends State<CourseSelection> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return EditCourse(course: Course.createNew());
+          return EditCourse(
+              course: Course(name: 'New course', uniqueID: 'course'));
         },
       ),
     );

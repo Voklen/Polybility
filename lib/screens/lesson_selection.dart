@@ -13,7 +13,7 @@ class LessonSelection extends StatelessWidget {
     return FutureBuilder(
       future: courseFuture,
       builder: (context, snapshot) {
-        Course course = snapshot.data ?? Course.createNew();
+        Course course = snapshot.data ?? Course(name: '', uniqueID: '');
         List<Widget> lessonWidgets = _createLessonWidgets(course);
         return Scaffold(
           appBar: AppBar(

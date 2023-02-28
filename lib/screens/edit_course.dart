@@ -40,7 +40,7 @@ class _EditCourseState extends State<EditCourse> {
       MaterialPageRoute(
         builder: (context) {
           return CreateLesson(
-            lesson: Lesson.createNew(),
+            lesson: Lesson(),
           );
         },
       ),
@@ -68,7 +68,7 @@ class LessonIcon extends StatefulWidget {
 }
 
 class _LessonIconState extends State<LessonIcon> {
-  Lesson lesson = Lesson.createNew();
+  Lesson lesson = Lesson();
 
   @override
   void initState() {

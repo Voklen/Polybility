@@ -97,7 +97,7 @@ class _CreateLessonState extends State<CreateLesson> {
   }
 
   void _nextLevel(BuildContext context) {
-    widget.lesson.addQuestion(Question.createNew);
+    widget.lesson.addQuestion(const Question());
     addQuestionButton();
     final newQuestionIndex = _selections.length - 1;
     _switchToQuestion(newQuestionIndex);
