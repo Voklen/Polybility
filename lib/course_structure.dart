@@ -72,8 +72,8 @@ class Course {
 
 class Lesson {
   Lesson({String? description, List<Question>? questions})
-      : _description = description ?? '',
-        _questions = questions ?? [];
+      : _description = description ?? 'A lesson',
+        _questions = questions ?? [const Question()];
 
   final String _description;
   final List<Question> _questions;
