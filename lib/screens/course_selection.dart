@@ -22,9 +22,15 @@ class _CourseSelectionState extends State<CourseSelection> {
         CreateEditToggle(
           onToggle: _switchMode,
         ),
-        ElevatedButton(
-          onPressed: _newCourse,
-          child: const Text('Create course'),
+        Visibility(
+          visible: !playCourse,
+          maintainSize: true,
+          maintainAnimation: true,
+          maintainState: true,
+          child: ElevatedButton(
+            onPressed: _newCourse,
+            child: const Text('Create course'),
+          ),
         ),
         CoursesList(
           onCourseButtonPress: _courseButtonPressed,
@@ -34,7 +40,9 @@ class _CourseSelectionState extends State<CourseSelection> {
   }
 
   void _switchMode() {
-    playCourse = !playCourse;
+    setState(() {
+      playCourse = !playCourse;
+    });
   }
 
   void _courseButtonPressed(String courseName) {
@@ -46,7 +54,7 @@ class _CourseSelectionState extends State<CourseSelection> {
   }
 
   void _playCourse(String name) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) {

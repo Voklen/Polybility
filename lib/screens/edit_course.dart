@@ -24,7 +24,7 @@ class _EditCourseState extends State<EditCourse> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Polybility'),
+        title: Text('Editing: ${widget.course.getName()}'),
       ),
       body: Center(
         child: Column(
