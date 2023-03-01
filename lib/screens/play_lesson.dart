@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:polybility/course_structure.dart';
+import 'package:polybility/screens/congrats.dart';
 
 class PlayLesson extends StatefulWidget {
   const PlayLesson({super.key, required this.lesson});
@@ -106,8 +107,15 @@ class _PlayLessonState extends State<PlayLesson> {
     _showingIncorrect = false;
     _currentQuestionIndex += 1;
     if (_currentQuestionIndex == widget.lesson.nOfQuestions()) {
-      //TODO save XP to file and go to congratulations screen
-      Navigator.pop(context, widget.lesson);
+      //TODO save XP to file
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return const Congrats();
+          },
+        ),
+      );
       return;
     }
     _prompt = _currentQuestion.prompt;
