@@ -43,12 +43,6 @@ class Course {
     return Course._fromMap(map);
   }
 
-  Future _writeToFile() async {
-    final courseAsMap = toMap();
-    final courseAsToml = TomlDocument.fromMap(courseAsMap).toString();
-    File(await _filePath).writeAsString(courseAsToml);
-  }
-
   static Stream<String> getCourses() async* {
     final path = await _saveDirectory;
     final directory = Directory(path);
@@ -66,6 +60,12 @@ class Course {
 
   static String _removeExtension(String filename) {
     return filename.substring(0, filename.length - 5);
+  }
+
+  Future _writeToFile() async {
+    final courseAsMap = toMap();
+    final courseAsToml = TomlDocument.fromMap(courseAsMap).toString();
+    File(await _filePath).writeAsString(courseAsToml);
   }
 
   Future<String> get _filePath async {
