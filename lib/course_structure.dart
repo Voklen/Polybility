@@ -28,11 +28,11 @@ class Course {
     return {'name': _name, 'lessons': lessonsMap};
   }
 
-  static Course _fromMap(Map map) {
+  static Course _fromMap(Map map, String uniqueID) {
     String name = map['name'];
     List<Map> lessonsMap = map['lessons'];
     List<Lesson> lessons = lessonsMap.map(Lesson.fromMap).toList();
-    return Course(uniqueID: 'course', name: name, lessons: lessons);
+    return Course(uniqueID: uniqueID, name: name, lessons: lessons);
   }
 
   static Future<Course> fromFile(String name) async {
@@ -40,7 +40,7 @@ class Course {
     final String path = "$directory/$name.toml";
     final TomlDocument toml = await TomlDocument.load(path);
     final Map map = toml.toMap();
-    return Course._fromMap(map);
+    return Course._fromMap(map, name);
   }
 
   static Stream<String> getCourses() async* {
@@ -65,7 +65,8 @@ class Course {
   Future _writeToFile() async {
     final courseAsMap = toMap();
     final courseAsToml = TomlDocument.fromMap(courseAsMap).toString();
-    File(await _filePath).writeAsString(courseAsToml);
+    final path = await _filePath;
+    File(path).writeAsString(courseAsToml);
   }
 
   Future<String> get _filePath async {
