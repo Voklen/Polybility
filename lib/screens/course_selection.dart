@@ -66,8 +66,8 @@ class _CourseSelectionState extends State<CourseSelection> {
     );
   }
 
-  void _editCourse(String name) async {
-    final course = await Course.fromFile(name);
+  void _editCourse(String name) {
+    final course = Course.fromFile(name);
     if (!mounted) return;
     Navigator.push(
       context,

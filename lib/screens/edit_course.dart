@@ -6,16 +6,19 @@ import 'package:polybility/screens/create_lesson.dart';
 class EditCourse extends StatefulWidget {
   const EditCourse({super.key, required this.course});
 
-  //TODO take a course name instead of a course
-  final Course course;
+  final Future<Course> course;
 
   @override
   State<EditCourse> createState() => _EditCourseState();
 }
 
 class _EditCourseState extends State<EditCourse> {
-  late final lessonIcons =
-      widget.course.getLessons().map(_lessonToIcon).toList();
+  late final lessonIcons = getLessonIcons();
+
+  Future<List<Widget>> getLessonIcons() async {
+    final course = await widget.course;
+    return course.getLessons().map(_lessonToIcon).toList();
+  }
 
   static Widget _lessonToIcon(Lesson lesson) =>
       LessonIcon(color: Color.fromARGB(255, 158, 31, 31), lesson: lesson);
@@ -24,12 +27,28 @@ class _EditCourseState extends State<EditCourse> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editing: ${widget.course.getName()}'),
+        title: FutureBuilder(
+          future: widget.course,
+          builder: (context, snapshot) {
+            String title = 'Loading…';
+            if (snapshot.hasData) {
+              String courseName = snapshot.data!.getName();
+              title = 'Editing: $courseName';
+            }
+            return Text(title);
+          },
+        ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: lessonIcons,
+        child: FutureBuilder(
+          future: lessonIcons,
+          builder: (context, snapshot) {
+            List<Widget> icons = snapshot.data ?? [];
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: icons,
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -52,9 +71,11 @@ class _EditCourseState extends State<EditCourse> {
       ),
     );
     if (createdLesson == null) return;
-    widget.course.addLesson(createdLesson);
+    Course course = await widget.course;
+    course.addLesson(createdLesson);
+    final icons = await lessonIcons;
     setState(() {
-      lessonIcons.add(LessonIcon(
+      icons.add(LessonIcon(
         color: Color.fromARGB(255, 158, 31, 31),
         lesson: createdLesson,
       ));

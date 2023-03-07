@@ -49,7 +49,8 @@ class _CreateCourseState extends State<CreateCourse> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return EditCourse(course: Course(uniqueID: id, name: name));
+          return EditCourse(
+              course: Future.value(Course(uniqueID: id, name: name)));
         },
       ),
     );

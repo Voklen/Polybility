@@ -9,7 +9,7 @@ void main() {
   testWidgets('Navigation to new lesson', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
       home: EditCourse(
-        course: Course(name: 'New course', uniqueID: 'course'),
+        course: Future.value(Course(name: 'New course', uniqueID: 'course')),
       ),
     ));
 
