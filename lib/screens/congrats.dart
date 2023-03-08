@@ -1,16 +1,33 @@
 import 'package:flutter/material.dart';
 
 class Congrats extends StatelessWidget {
-  const Congrats({super.key});
+  Congrats({
+    super.key,
+    required List<bool> results,
+  })  : totalAnswers = results.length,
+        rightAnswers = results.fold(0, countRight);
+
+  static int countRight(int previousValue, bool wasRight) {
+    if (wasRight) {
+      return previousValue + 1;
+    } else {
+      return previousValue;
+    }
+  }
+
+  final int totalAnswers;
+  final int rightAnswers;
 
   @override
   Widget build(BuildContext context) {
+    final percentage = 100 * rightAnswers / totalAnswers;
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Wooo well done!'),
+            const Text('Wooo well done!'),
+            Text('You got $percentage% right'),
           ],
         ),
       ),

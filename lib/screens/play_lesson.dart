@@ -17,6 +17,7 @@ class _PlayLessonState extends State<PlayLesson> {
   Question get _currentQuestion =>
       widget.lesson.getQuestion(_currentQuestionIndex);
   double _lessonProgress = 0;
+  List<bool> results = [];
 
   String _prompt = "";
   final _answerController = TextEditingController();
@@ -94,8 +95,10 @@ class _PlayLessonState extends State<PlayLesson> {
 
     if (_answerController.text == _currentQuestion.answer) {
       _showingCorrect = true;
+      results.add(true);
     } else {
       _showingIncorrect = true;
+      results.add(false);
     }
     setState(() {
       _bottomButtonText = 'Continue';
@@ -107,12 +110,13 @@ class _PlayLessonState extends State<PlayLesson> {
     _showingIncorrect = false;
     _currentQuestionIndex += 1;
     if (_currentQuestionIndex == widget.lesson.nOfQuestions()) {
-      //TODO save XP to file
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) {
-            return const Congrats();
+            return Congrats(
+              results: results,
+            );
           },
         ),
       );
