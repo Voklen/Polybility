@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:polybility/course_structure.dart';
+import 'package:polybility/write_to_file.dart';
 import 'package:polybility/screens/congrats.dart';
 
 class PlayLesson extends StatefulWidget {
@@ -124,6 +125,7 @@ class _PlayLessonState extends State<PlayLesson> {
     int totalAnswers = results.length;
     int rightAnswers = results.fold(0, _countRight);
     int xp = 20 * rightAnswers ~/ totalAnswers;
+    writeToFile(xp);
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
