@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Congrats extends StatelessWidget {
-  Congrats({
+  const Congrats({
     super.key,
-    required List<bool> results,
-  })  : totalAnswers = results.length,
-        rightAnswers = results.fold(0, countRight);
-
-  static int countRight(int previousValue, bool wasRight) {
-    if (wasRight) {
-      return previousValue + 1;
-    } else {
-      return previousValue;
-    }
-  }
+    required this.totalAnswers,
+    required this.rightAnswers,
+  });
 
   final int totalAnswers;
   final int rightAnswers;

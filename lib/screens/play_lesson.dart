@@ -110,16 +110,7 @@ class _PlayLessonState extends State<PlayLesson> {
     _showingIncorrect = false;
     _currentQuestionIndex += 1;
     if (_currentQuestionIndex == widget.lesson.nOfQuestions()) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return Congrats(
-              results: results,
-            );
-          },
-        ),
-      );
+      endLesson();
       return;
     }
     _prompt = _currentQuestion.prompt;
@@ -127,5 +118,29 @@ class _PlayLessonState extends State<PlayLesson> {
     setState(() {
       _lessonProgress = _currentQuestionIndex / widget.lesson.nOfQuestions();
     });
+  }
+
+  void endLesson() {
+    int totalAnswers = results.length;
+    int rightAnswers = results.fold(0, _countRight);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return Congrats(
+            totalAnswers: totalAnswers,
+            rightAnswers: rightAnswers,
+          );
+        },
+      ),
+    );
+  }
+
+  static int _countRight(int previousValue, bool wasRight) {
+    if (wasRight) {
+      return previousValue + 1;
+    } else {
+      return previousValue;
+    }
   }
 }
