@@ -5,10 +5,12 @@ class Congrats extends StatelessWidget {
     super.key,
     required this.totalAnswers,
     required this.rightAnswers,
+    required this.xp,
   });
 
   final int totalAnswers;
   final int rightAnswers;
+  final int xp;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,7 @@ class Congrats extends StatelessWidget {
           children: [
             const Text('Wooo well done!'),
             Text('You got $percentage% right'),
+            Text('And earned $xp XP'),
           ],
         ),
       ),

@@ -123,6 +123,7 @@ class _PlayLessonState extends State<PlayLesson> {
   void endLesson() {
     int totalAnswers = results.length;
     int rightAnswers = results.fold(0, _countRight);
+    int xp = 20 * rightAnswers ~/ totalAnswers;
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -130,6 +131,7 @@ class _PlayLessonState extends State<PlayLesson> {
           return Congrats(
             totalAnswers: totalAnswers,
             rightAnswers: rightAnswers,
+            xp: xp,
           );
         },
       ),
