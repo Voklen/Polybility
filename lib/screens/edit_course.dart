@@ -16,12 +16,25 @@ class _EditCourseState extends State<EditCourse> {
   late final lessonIcons = getLessonIcons();
 
   Future<List<Widget>> getLessonIcons() async {
-    final course = await widget.course;
-    return course.getLessons().map(_lessonToIcon).toList();
+    Course course = await widget.course;
+    List<Lesson> lessons = course.getLessons();
+    List<Widget> lessonsAsIcons = [];
+    for (int i = 0; i < lessons.length; i++) {
+      Widget lessonAsIcon = await _lessonToIcon(lessons[i], i);
+      lessonsAsIcons.add(lessonAsIcon);
+    }
+    return lessonsAsIcons;
   }
 
-  static Widget _lessonToIcon(Lesson lesson) =>
-      LessonIcon(color: Color.fromARGB(255, 158, 31, 31), lesson: lesson);
+  Future<Widget> _lessonToIcon(Lesson lesson, int index) async {
+    Course course = await widget.course;
+    void updateLesson(Lesson lesson) => course.setLesson(lesson, index);
+    return LessonIcon(
+      color: const Color.fromARGB(255, 158, 31, 31),
+      updateLesson: updateLesson,
+      lesson: lesson,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +87,13 @@ class _EditCourseState extends State<EditCourse> {
     Course course = await widget.course;
     course.addLesson(createdLesson);
     final icons = await lessonIcons;
+
+    int index = course.nOfQuestions() - 1;
+    void updateLesson(Lesson lesson) => course.setLesson(lesson, index);
     setState(() {
       icons.add(LessonIcon(
-        color: Color.fromARGB(255, 158, 31, 31),
+        color: const Color.fromARGB(255, 158, 31, 31),
+        updateLesson: updateLesson,
         lesson: createdLesson,
       ));
     });
@@ -84,9 +101,15 @@ class _EditCourseState extends State<EditCourse> {
 }
 
 class LessonIcon extends StatefulWidget {
-  const LessonIcon({super.key, required this.color, required this.lesson});
+  const LessonIcon({
+    super.key,
+    required this.color,
+    required this.updateLesson,
+    required this.lesson,
+  });
 
   final Color color;
+  final void Function(Lesson) updateLesson;
   final Lesson lesson;
 
   @override
@@ -125,6 +148,7 @@ class _LessonIconState extends State<LessonIcon> {
       ),
     );
     if (editedLesson == null) return;
+    widget.updateLesson(editedLesson);
 
     lesson = editedLesson;
   }

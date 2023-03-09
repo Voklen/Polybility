@@ -20,8 +20,14 @@ class Course {
     _writeToFile();
   }
 
+  void setLesson(Lesson lesson, int index) {
+    _lessons[index] = lesson;
+    _writeToFile();
+  }
+
   String getName() => _name;
   List<Lesson> getLessons() => _lessons;
+  int nOfQuestions() => _lessons.length;
 
   Map toMap() {
     final lessonsMap = _lessons.map((e) => e.toMap());
