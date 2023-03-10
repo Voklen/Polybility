@@ -28,6 +28,7 @@ void writeStatsToCSV(int xp) async {
   asTimes.add(Result(xp, DateTime.now()));
   List<Result> sortedTimes = insertionSort(asTimes);
   writeXP(sortedTimes, file);
+  writeHTML(sortedTimes);
 }
 
 Future<List<String>> readLines(File file) async {
@@ -62,6 +63,36 @@ void writeXP(List<Result> sortedTimes, File file) {
   Iterable<String> lines = sortedTimes.map((e) => e.toCSVString());
   String stringToWrite = lines.reduce((collected, line) => '$collected\n$line');
   file.writeAsString(stringToWrite);
+}
+
+void writeHTML(List<Result> sortedTimes) async {
+  String saveDirectory = await _saveDirectory;
+  String path = '$saveDirectory/stats.html';
+  File file = File(path);
+  file.writeAsStringSync('''<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Polibility statistics</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body><table>
+  <thead><tr>
+  <th>XP</th>
+  <th>Date</th>
+  </tr></thead><tbody>''');
+  for (int i = 0; i < sortedTimes.length; i++) {
+    int xp = sortedTimes[i].xp;
+    String time = sortedTimes[i].time.toIso8601String();
+    file.writeAsStringSync(
+      '<tr><td>$xp</td><td>$time</td></tr>',
+      mode: FileMode.append,
+    );
+  }
+  file.writeAsStringSync('</tbody></table></body></html>',
+      mode: FileMode.append);
 }
 
 Future<String> get _saveDirectory async {
