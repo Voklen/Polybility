@@ -76,20 +76,45 @@ void writeHTML(List<Result> sortedTimes) async {
 	<title>Polibility statistics</title>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+	html {
+		background-color: #98ff98;
+		font-family: Dejavu Sans, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	}
+	table, th, td {
+		border: 1px solid;
+		margin: 1em;
+		padding: 0.3em 1em;
+		border-collapse: collapse;
+	}
+	table {
+		margin: auto;
+	}
+	th {
+		background-color: #ff98d2;
+	}
+	td {
+		background-color: #ffc798;
+	}
+	</style>
 </head>
 
 <body><table>
 	<thead><tr>
 		<th>XP</th>
 		<th>Date</th>
+		<th>Time</th>
 	</tr></thead>
 	<tbody>
 ''');
   for (int i = 0; i < sortedTimes.length; i++) {
     int xp = sortedTimes[i].xp;
-    String time = sortedTimes[i].time.toIso8601String();
+    String exactTime = sortedTimes[i].time.toIso8601String();
+    List<String> splitOnT = exactTime.split('T');
+    String date = splitOnT[0];
+    String time = splitOnT[1].split('.')[0];
     file.writeAsStringSync(
-      '		<tr><td>$xp</td><td>$time</td></tr>\n',
+      '		<tr><td>$xp</td><td>$date</td><td>$time</td></tr>\n',
       mode: FileMode.append,
     );
   }
