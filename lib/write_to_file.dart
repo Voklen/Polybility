@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-
 import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 void writeToFile(int xp) async {
   List<Result> times = await writeStatsToCSV(xp);
@@ -93,8 +93,11 @@ void writeHTML(List<Result> sortedTimes) async {
       mode: FileMode.append,
     );
   }
-  file.writeAsStringSync('</tbody></table></body></html>',
-      mode: FileMode.append);
+  file.writeAsStringSync(
+    '</tbody></table></body></html>',
+    mode: FileMode.append,
+  );
+  launchUrlString('file:$path');
 }
 
 Future<String> get _saveDirectory async {
