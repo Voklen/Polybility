@@ -79,15 +79,17 @@ void writeHTML(List<Result> sortedTimes) async {
 </head>
 
 <body><table>
-  <thead><tr>
-  <th>XP</th>
-  <th>Date</th>
-  </tr></thead><tbody>''');
+	<thead><tr>
+		<th>XP</th>
+		<th>Date</th>
+	</tr></thead>
+	<tbody>
+''');
   for (int i = 0; i < sortedTimes.length; i++) {
     int xp = sortedTimes[i].xp;
     String time = sortedTimes[i].time.toIso8601String();
     file.writeAsStringSync(
-      '<tr><td>$xp</td><td>$time</td></tr>',
+      '		<tr><td>$xp</td><td>$time</td></tr>\n',
       mode: FileMode.append,
     );
   }
