@@ -41,19 +41,19 @@ class Course {
     return Course(uniqueID: uniqueID, name: name, lessons: lessons);
   }
 
+  static Stream<String> getCourses() async* {
+    final path = await _saveDirectory;
+    final directory = Directory(path);
+    final files = directory.list();
+    yield* files.map(_toFilenames).where(_isTOMLfile).map(_removeExtension);
+  }
+
   static Future<Course> fromFile(String name) async {
     final String directory = await _saveDirectory;
     final String path = "$directory/$name.toml";
     final TomlDocument toml = await TomlDocument.load(path);
     final Map map = toml.toMap();
     return Course._fromMap(map, name);
-  }
-
-  static Stream<String> getCourses() async* {
-    final path = await _saveDirectory;
-    final directory = Directory(path);
-    final files = directory.list();
-    yield* files.map(_toFilenames).where(_isTOMLfile).map(_removeExtension);
   }
 
   static String _toFilenames(FileSystemEntity file) {

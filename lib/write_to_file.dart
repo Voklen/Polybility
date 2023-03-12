@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:path_provider/path_provider.dart';
 
-void writeToFile(int xp) {
-  writeStatsToCSV(xp);
+void writeToFile(int xp) async {
+  List<Result> times = await writeStatsToCSV(xp);
+  writeHTML(times);
 }
 
 class Result {
@@ -19,16 +20,15 @@ class Result {
   }
 }
 
-void writeStatsToCSV(int xp) async {
+Future<List<Result>> writeStatsToCSV(int xp) async {
   String saveDirectory = await _saveDirectory;
-  String path = '$saveDirectory/stats.csv';
-  File file = File(path);
+  File file = File('$saveDirectory/stats.csv');
   List<String> asLines = await readLines(file);
   List<Result> asTimes = asLines.map(toResult).toList();
   asTimes.add(Result(xp, DateTime.now()));
   List<Result> sortedTimes = insertionSort(asTimes);
   writeXP(sortedTimes, file);
-  writeHTML(sortedTimes);
+  return sortedTimes;
 }
 
 Future<List<String>> readLines(File file) async {
