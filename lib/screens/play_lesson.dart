@@ -4,6 +4,8 @@ import 'package:polybility/course_structure.dart';
 import 'package:polybility/write_to_file.dart';
 import 'package:polybility/screens/congrats.dart';
 
+/// This is the screen for the user to play the lesson, probably where they'll
+/// be spending most of their time
 class PlayLesson extends StatefulWidget {
   const PlayLesson({super.key, required this.lesson});
 
