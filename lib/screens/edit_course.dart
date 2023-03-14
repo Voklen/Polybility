@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:polybility/course_structure.dart';
 import 'package:polybility/screens/create_lesson.dart';
 
+/// A screen to edit the course
 class EditCourse extends StatefulWidget {
   const EditCourse({super.key, required this.course});
 

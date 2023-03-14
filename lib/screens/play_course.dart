@@ -59,7 +59,7 @@ class LessonIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () => _playLesson(context),
-      icon: Icon(
+      icon: const Icon(
         Icons.circle,
         color: Color.fromARGB(255, 158, 31, 31),
       ),

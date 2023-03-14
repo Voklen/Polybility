@@ -5,6 +5,8 @@ import 'package:polybility/screens/create_course.dart';
 import 'package:polybility/screens/edit_course.dart';
 import 'package:polybility/screens/play_course.dart';
 
+/// This class is intended to be used within a drawer but can be used as a
+/// screen wrapped in `Scaffold()`
 class CourseSelection extends StatefulWidget {
   const CourseSelection({super.key});
 
@@ -91,6 +93,7 @@ class _CourseSelectionState extends State<CourseSelection> {
   }
 }
 
+/// This is a toggle with text on both sides of it
 class CreateEditToggle extends StatefulWidget {
   const CreateEditToggle({super.key, required this.onToggle});
 
@@ -133,6 +136,7 @@ class _CreateEditToggleState extends State<CreateEditToggle> {
   }
 }
 
+/// A column of courses that is read from the file
 class CoursesList extends StatefulWidget {
   const CoursesList({super.key, required this.onCourseButtonPress});
 
@@ -171,6 +175,7 @@ class _CoursesListState extends State<CoursesList> {
   }
 }
 
+/// A individual button showing the course, similar to LessonIcon
 class CourseButton extends StatelessWidget {
   const CourseButton(
       {super.key, required this.courseName, required this.onPressed});

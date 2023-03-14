@@ -14,6 +14,7 @@ class Congrats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Calculate percentage to then display to the user
     final percentage = 100 * rightAnswers / totalAnswers;
     return Scaffold(
       body: Center(

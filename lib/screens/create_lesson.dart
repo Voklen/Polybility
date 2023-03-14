@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:polybility/course_structure.dart';
 
+/// A screen to edit the lesson
 class CreateLesson extends StatefulWidget {
   const CreateLesson({super.key, required this.lesson});
 
