@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:polybility/course_structure.dart';
-import 'package:polybility/screens/create_lesson.dart';
+import 'package:polybility/screens/edit_lesson.dart';
 
 /// A screen to edit the course
 class EditCourse extends StatefulWidget {
@@ -78,7 +78,7 @@ class _EditCourseState extends State<EditCourse> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return CreateLesson(
+          return EditLesson(
             lesson: Lesson(),
           );
         },
@@ -142,7 +142,7 @@ class _LessonIconState extends State<LessonIcon> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return CreateLesson(
+          return EditLesson(
             lesson: lesson,
           );
         },

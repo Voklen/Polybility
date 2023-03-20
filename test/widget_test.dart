@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:polybility/course_structure.dart';
-import 'package:polybility/screens/create_lesson.dart';
+import 'package:polybility/screens/edit_lesson.dart';
 import 'package:polybility/screens/edit_course.dart';
 
 void main() {
@@ -22,7 +22,7 @@ void main() {
 
   testWidgets('Add and switch questions', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
-      home: CreateLesson(
+      home: EditLesson(
         lesson: Lesson(),
       ),
     ));

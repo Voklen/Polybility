@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:polybility/course_structure.dart';
 
 /// A screen to edit the lesson
-class CreateLesson extends StatefulWidget {
-  const CreateLesson({super.key, required this.lesson});
+class EditLesson extends StatefulWidget {
+  const EditLesson({super.key, required this.lesson});
 
   final Lesson lesson;
 
   @override
-  State<CreateLesson> createState() => _CreateLessonState();
+  State<EditLesson> createState() => _EditLessonState();
 }
 
-class _CreateLessonState extends State<CreateLesson> {
+class _EditLessonState extends State<EditLesson> {
   int _currentQuestion = 0;
 
   final _promptController = TextEditingController();
