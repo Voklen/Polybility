@@ -53,6 +53,7 @@ class _PlayLessonState extends State<PlayLesson> {
           TextField(
             controller: _answerController,
             decoration: const InputDecoration(hintText: 'Answer'),
+            onSubmitted: (_) => _check(),
           ),
         ],
       ),
