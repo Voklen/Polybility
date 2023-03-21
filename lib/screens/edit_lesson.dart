@@ -83,12 +83,12 @@ class _EditLessonState extends State<EditLesson> {
           Row(
             children: [
               ElevatedButton(
-                onPressed: () => _nextLevel(context),
-                child: const Text('Add question'),
+                onPressed: () => _submit(context),
+                child: const Text('Save lesson'),
               ),
               ElevatedButton(
-                onPressed: () => _submit(context),
-                child: const Text('Submit'),
+                onPressed: () => _nextLevel(context),
+                child: const Text('Add another question'),
               ),
             ],
           )
