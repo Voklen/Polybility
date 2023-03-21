@@ -24,15 +24,9 @@ class _CourseSelectionState extends State<CourseSelection> {
         CreateEditToggle(
           onToggle: _switchMode,
         ),
-        Visibility(
-          visible: !playCourse,
-          maintainSize: true,
-          maintainAnimation: true,
-          maintainState: true,
-          child: ElevatedButton(
-            onPressed: _newCourse,
-            child: const Text('Create course'),
-          ),
+        ElevatedButton(
+          onPressed: _newCourse,
+          child: const Text('Create course'),
         ),
         CoursesList(
           onCourseButtonPress: _courseButtonPressed,
