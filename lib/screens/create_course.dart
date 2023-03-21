@@ -28,9 +28,9 @@ class _CreateCourseState extends State<CreateCourse> {
             decoration: const InputDecoration(hintText: 'Name'),
             controller: nameController,
           ),
-          const Text('Unique ID:'),
+          const Text('Unique name:'),
           TextField(
-            decoration: const InputDecoration(hintText: 'ID'),
+            decoration: const InputDecoration(hintText: 'Unique name'),
             controller: idController,
           ),
           ElevatedButton(
