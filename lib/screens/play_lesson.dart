@@ -96,7 +96,8 @@ class _PlayLessonState extends State<PlayLesson> {
       return;
     }
 
-    if (_answerController.text == _currentQuestion.answer) {
+    if (_answerController.text.toLowerCase() ==
+        _currentQuestion.answer.toLowerCase()) {
       _showingCorrect = true;
       results.add(true);
     } else {
